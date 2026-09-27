@@ -1,0 +1,230 @@
+-- zwwm configuration — порт конфига driftwm
+-- ~/.config/zwwm/config.zw
+
+-- ─── Переменные ────────────────────────────────────────────────
+TERMINAL    = "foot"
+FILEMANAGER = "dolphin"
+LAUNCHER    = "jes-cli toggleLaunch"
+MOD         = "Mod4"
+
+-- ─── Автостарт (бывший autostart из driftwm) ───────────────────
+exec-sh-on-startup = [
+  "jes-cli start-daemon",
+  "Telegram",
+  "chromium",
+  "wl-paste --type text --watch cliphist store",
+  "wl-paste --type image --watch cliphist store",
+  "mkdir -p ~/Screenshots",
+  "openrgb --profile orflem",
+  "mpd-mpris",
+  "kwalletd6",
+  "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP",
+  "systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP",
+  "systemctl --user restart espanso"
+]
+
+-- ─── Бинды ─────────────────────────────────────────────────────
+-- Формат: bind = МОДИФИКАТОРЫ, КЛАВИША, ДЕЙСТВИЕ, АРГУМЕНТ
+-- Действия zwwm: exec, reload, exit, focus, killactive, killsession,
+-- togglefloating, toggle-fullscreen, tag, movetotag, zoomin, zoomout
+
+-- Приложения
+bind = $MOD, Q, exec, $TERMINAL
+bind = $MOD, Return, exec, $TERMINAL
+bind = $MOD, D, exec, $LAUNCHER
+bind = $MOD, E, exec, $FILEMANAGER
+
+-- Окна
+bind = $MOD, C, killactive, ""
+bind = $MOD, space, toggle-fullscreen, ""
+bind = $MOD, F, togglefloating, ""   -- было toggle-pin-to-screen в driftwm
+
+-- Конфиг / выход
+bind = "Mod4+Shift", R, reload, ""
+bind = "Mod4+Shift", M, exit, ""
+-- Вариант с подтверждением, как был swaynag в driftwm:
+-- bind = "Mod4+Shift", M, exec, "swaynag -t warning -m 'Exit zwwm?' -B 'Yes' 'zwwmctl exit'"
+
+-- jes-cli: power menu / дашборд / карта
+bind = $MOD, P, exec, "jes-cli togglePower"
+bind = "Mod4+Mod1", F, exec, "jes-cli toggleJwindow"
+bind = $MOD, M, exec, "jes-cli toggleMap"
+bind = $MOD, W, exec, "jes-cli reload-daemon"
+
+-- Медиа
+bind = Mod1, F9,  exec, "pamixer -t"
+bind = Mod1, F10, exec, "pamixer -d 5"
+bind = Mod1, F11, exec, "pamixer -i 5"
+bind = Mod1, F12, exec, "jes-cli togglePlayer"
+bind = Mod1, Escape, exec, "jes-cli prev-player"
+bind = Mod1, F1, exec, "jes-cli next-player"
+bind = Mod1, F4, exec, "jes-cli play-pause"
+bind = Mod1, F3, exec, "jes-cli next"
+bind = Mod1, F2, exec, "jes-cli prev"
+
+-- Яркость монитора
+bind = Mod1, Prior, exec, "jes-cli brightness-up"
+bind = Mod1, Next,  exec, "jes-cli brightness-down"
+
+-- Скриншоты
+bind = Control, Home, exec, "jes-cli screenpicker"
+bind = Shift, Home, exec, "sh -c 'grim - | tee ~/Screenshots/$(date +%Y-%m-%d_%H-%M-%S)_fullscreen.png | wl-copy'"
+
+-- Колорпикер
+bind = $MOD, N, exec, "hyprpicker -a"
+
+-- Фокус: в zwwm нет навигации по направлениям (center-nearest),
+-- есть циклический перебор окон — на Tab, как был home-toggle
+bind = $MOD, Tab, focus, ""
+bind = $MOD, Left,  focus, "left"
+bind = $MOD, Down,  focus, "down"
+bind = $MOD, Up,    focus, "up"
+bind = $MOD, Right, focus, "right"
+
+-- Зум канваса колесом (wheel = zoom из driftwm)
+bind = $MOD, scrollback, zoomin, ""
+bind = $MOD, scrollforward, zoomout, ""
+
+-- Теги 1-9 (аналог go-to / воркспейсов)
+bind = $MOD, "1", tag, "1"
+bind = $MOD, "2", tag, "2"
+bind = $MOD, "3", tag, "3"
+bind = $MOD, "4", tag, "4"
+bind = $MOD, "5", tag, "5"
+bind = $MOD, "6", tag, "6"
+bind = $MOD, "7", tag, "7"
+bind = $MOD, "8", tag, "8"
+bind = $MOD, "9", tag, "9"
+
+-- Переместить окно на тег
+bind = "Mod4+Shift", "1", movetotag, "1"
+bind = "Mod4+Shift", "2", movetotag, "2"
+bind = "Mod4+Shift", "3", movetotag, "3"
+bind = "Mod4+Shift", "4", movetotag, "4"
+bind = "Mod4+Shift", "5", movetotag, "5"
+bind = "Mod4+Shift", "6", movetotag, "6"
+bind = "Mod4+Shift", "7", movetotag, "7"
+bind = "Mod4+Shift", "8", movetotag, "8"
+bind = "Mod4+Shift", "9", movetotag, "9"
+
+-- ─── Шейдеры ───────────────────────────────────────────────────
+shaders = {
+  glass = {
+    role = "window"
+    source = "shaders/glass.frag"
+    values = {
+      radius = 20
+      rounding_power = 2
+      blur_radius = 2
+      blur_passes = 1
+      blur_brightness = 100
+      blur_contrast = 100
+      blur_saturation = 100
+      blur_noise = 1
+      glass_width = 0
+      glass_height = 0
+      glass_radius = 20
+      distortion_depth_per_mille = 250
+      distortion_strength_per_mille = 150
+      chromatic_shift = 7
+      glass_tint_per_mille = 1000
+    }
+  }
+  border = {
+    role = "border"
+    source = "shaders/border.frag"
+    values = {
+      width = 2
+      radius = 20
+      rounding_power = 2
+      gradient_colors = ["#303030"]
+      focused_gradient_colors = ["#cfcfcf"]
+    }
+  }
+  -- Порт dot-grid из driftwm (bg.glsl), см. shaders/dotgrid.frag
+  background = {
+    role = "background"
+    source = "shaders/dotgrid.frag"
+    values = {
+      top_color = "#20242b"
+      bottom_color = "#13161b"
+    }
+  }
+}
+
+
+-- ─── Анимации ──────────────────────────────────────────────────
+animations = {
+  enabled = true
+  duration-ms = 320
+  tag-duration-ms = 360
+  spring = { stiffness = 200 damping = 18 mass-per-mille = 1000 }
+  cubic-bezier = { x1 = 220 y1 = 0 x2 = 300 y2 = 1000 }
+  open-window = true
+  resize = true
+  close = true
+  open-scale-per-mille = 900
+  close-scale-per-mille = 800
+  open-offset-px = 0
+  close-offset-px = 0
+  tag-scale-per-mille = 1000
+  tag-parallax-per-mille = 1000
+  tag-fade-per-mille = 0
+}
+
+-- ─── Лейаут ────────────────────────────────────────────────────
+layout = {
+  default = "endless-canvas"
+  master-count = 1
+  master-ratio = 60
+  outer-gap = 16
+  inner-gap = 12
+  smart-gaps = false
+}
+
+input = {
+  focus-mode = "by-click"
+  reverse-mouse-scrolling = false
+}
+
+-- ─── Клавиатура (из [input.keyboard]) ─────────────────────────
+-- NOTE: repeat_rate, repeat_delay и num_lock в zwwm пока не настраиваются
+keyboard = {
+  rules = ""
+  model = ""
+  layout = "us,ru"
+  variant = ""
+  options = "grp:caps_toggle,grp:alt_shift_toggle"
+}
+
+-- ─── Выход (из [[outputs]] driftwm) ───────────────────────────
+-- NOTE: настройки глобальные, не per-connector; DP-3 не указать
+output = {
+  mode = "3440x1440@144"
+  scale-per-mille = 1000
+  bit-depth = 8
+  transform = "normal"
+}
+
+-- ─── Окружение ─────────────────────────────────────────────────
+environment = {
+  XDG_CURRENT_DESKTOP = "zwwm"
+  XDG_SESSION_DESKTOP = "zwwm"
+  XDG_SESSION_TYPE = "wayland"
+  XCURSOR_SIZE = "32"
+  XCURSOR_THEME = "BreezeX-RosePine-Linux"
+  TERMINAL = $TERMINAL
+}
+
+-- ─── Правила окон ──────────────────────────────────────────────
+-- Глобальное стекло + прозрачность (opacity 0.85 из driftwm)
+rule = {
+  match = { app-id = "*" }
+  set = { glass = true opacity = 85 }
+}
+
+-- Picture-in-Picture: без блюра, непрозрачный (как в driftwm)
+-- rule = {
+--   match = { title = "*Picture-in-Picture*" }
+--   set = { floating = true glass = false blur = false opacity = 100 }
+-- }

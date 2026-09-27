@@ -1,0 +1,12 @@
+{
+     "api_version": "0.2.0",
+     "plugin_version": "1.0",
+     "name": "bruh",
+     "api_request": [
+         "api_extending"
+     ],
+     "main_source": "Main.qml",
+     "json_files": {
+         
+     }
+}

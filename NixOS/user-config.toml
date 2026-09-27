@@ -1,0 +1,5 @@
+hostname = "nixos"
+username = "user"
+description = "User"
+timezone = "Europe/London" # it's plug
+prefered_WM = "driftwm"

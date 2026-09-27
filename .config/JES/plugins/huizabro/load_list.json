@@ -1,0 +1,4 @@
+[
+  { "source": "ContentSystem.qml", "colSpan": 1, "rowSpan": 1 },
+  { "qmlFile": "ColorAura.qml", "colSpan": 3, "rowSpan": 3 }
+]

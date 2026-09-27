@@ -1,0 +1,24 @@
+{
+  "api_version": "0.1.1",
+  "plugin_version": "1.0",
+  "name": "huizabro",
+  "api_request": [
+    "launcher",
+    "plugin_center",
+    "osd",
+    "Jwindow"
+  ],
+  "required_settings": [
+      "view",
+      "tileLabel",
+      "tileSize",
+      "tileBg"
+  ],
+  "main_source": "Main.qml",
+  "json_files": {
+    "launcher": "launch_list.json",
+    "plugin_center": "load_list.json",
+    "osd": "osd_list.json",
+    "Jwindow": "Jwindow_list.json"
+  }
+}

@@ -1,0 +1,12 @@
+[
+  {
+    "id": "mic_volume",
+    "type": "percent",
+    "command": "./test_mic.sh"
+  },
+  {
+    "id": "media_status",
+    "type": "text",
+    "command": "./test_media.sh"
+  }
+]
