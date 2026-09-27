@@ -12,22 +12,10 @@ static_type = "jpg"
 [dirs]
 image_dirs = [
     "~/.config/JES/wallpapers/static",
-    "/mnt/media/файлы/обои",
-    "/mnt/media/файлы/обои/zde",
-    "/mnt/media/файлы/обои/.anime",
-    "/mnt/media/файлы/обои/Minimalist",
-    "/mnt/media/файлы/обои/WideScreen",
-    "/mnt/media/файлы/обои/Abstract",
-    "/mnt/media/файлы/обои/binarylinuxx",
 ]
 
 video_dirs = [
     "~/.config/JES/wallpapers/video",
-    "/mnt/media/файлы/обои/видео обои",
-    "/mnt/media/файлы/обои/видео обои/whinter",
-    "/mnt/media/файлы/обои/видео обои/summer",
-    "/mnt/media/файлы/обои/видео обои/autumn",
-    "/mnt/media/файлы/обои/видео обои/spring",
 ]
 
 shader_dir = "~/.config/JES/wallpapers/shaders"
@@ -38,6 +26,6 @@ shader_dir = "~/.config/JES/wallpapers/shaders"
 # shell.qml читает его при старте через JsonPoll и применяет wallType
 [state]
 mode      = "video"
-wallpaper = "/mnt/media/файлы/обои/видео обои/autumn/kitsunes-and-tank-moewalls-com.mp4"
+wallpaper = "~/.config/JES/wallpapers/video/kitsunes-and-tank-moewalls-com.mp4"
 shader    = "road"
 colorscheme = "scheme-tonal-spot"
